@@ -51,6 +51,7 @@ const CityHolder = styled.div`
   display: flex;
   gap: 5px;
 `;
+const ProductImage = styled.img``;
 
 export default function CartPage() {
   const { cartProducts, addProduct, removeProduct, clearCart } =
@@ -149,12 +150,7 @@ export default function CartPage() {
                     <tr key={product._id}>
                       <ProductInfoCell>
                         <ProductImageBox>
-                          <Image
-                            src={product.images[0]}
-                            alt=""
-                            width={100}
-                            height={100}
-                          />
+                          <ProductImage src={product.images[0]} alt="" />
                         </ProductImageBox>
                         {product.title}
                       </ProductInfoCell>

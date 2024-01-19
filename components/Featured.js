@@ -40,6 +40,7 @@ const ButtonsWrapper = styled.div`
   gap: 10px;
   margin-top: 25px;
 `;
+const BannerImage = styled.img``;
 
 export default function Featured({ product }) {
   const { addProduct } = useContext(CartContext);
@@ -70,12 +71,10 @@ export default function Featured({ product }) {
             </div>
           </Column>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Image
+            <BannerImage
               priority
               src={"https://blazebuy.s3.amazonaws.com/1705493003182.png"}
               alt=""
-              width={100}
-              height={100}
             />
           </div>
         </ColumnsWrapper>

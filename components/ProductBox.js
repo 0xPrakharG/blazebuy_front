@@ -41,6 +41,7 @@ const Price = styled.div`
   font-size: 1.2rem;
   font-weight: 600;
 `;
+const ProductImage = styled.img``;
 
 export default function ProductBox({ _id, title, description, price, images }) {
   const url = "/product/" + _id;
@@ -49,7 +50,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
     <ProductWrapper>
       <WhiteBox href={url}>
         <div>
-          <Image src={images[0]} alt="" width={200} height={200} />
+          <ProductImage src={images[0]} alt="" />
         </div>
       </WhiteBox>
       <ProductInfoBox>
