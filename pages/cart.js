@@ -53,7 +53,8 @@ const CityHolder = styled.div`
 `;
 
 export default function CartPage() {
-  const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
+  const { cartProducts, addProduct, removeProduct, clearCart } =
+    useContext(CartContext);
   const [products, setProducts] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -61,6 +62,7 @@ export default function CartPage() {
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -72,18 +74,19 @@ export default function CartPage() {
     }
   }, [cartProducts]);
 
+  useEffect(() => {
+    if (window.location.href.includes("success")) {
+      setIsSuccess(true);
+      clearCart();
+    }
+  }, [clearCart]);
+
   function moreOfThisProduct(id) {
     addProduct(id);
   }
 
   function lessOfThisProduct(id) {
     removeProduct(id);
-  }
-
-  let total = 0;
-  for (const productId of cartProducts) {
-    const price = products.find((p) => p._id === productId)?.price || 0;
-    total += price;
   }
 
   async function goToPayment() {
@@ -101,7 +104,13 @@ export default function CartPage() {
     }
   }
 
-  if (window.location.href.includes("success")) {
+  let total = 0;
+  for (const productId of cartProducts) {
+    const price = products.find((p) => p._id === productId)?.price || 0;
+    total += price;
+  }
+
+  if (isSuccess) {
     return (
       <>
         <Header />
