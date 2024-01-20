@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 export const ButtonStyle = css`
   border: 0;
   text-decoration: none;
-  padding: 5px 15px;
+  padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
   display: inline-flex;

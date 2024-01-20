@@ -25,7 +25,6 @@ const ImageButton = styled.div`
   `
       : `
     border-color: transparent;
-    opacity: 0.7;
   `}
   display: flex;
   align-items: center;

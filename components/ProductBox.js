@@ -32,14 +32,23 @@ const ProductInfoBox = styled.div`
   margin-top: 5px;
 `;
 const PriceRow = styled.div`
-  display: flex;
+  display: block;
+  @media screen and (min-width: 768px) {
+    display: flex;
+    gap: 5px;
+  }
   align-items: center;
   justify-content: space-between;
   margin-top: 2px;
 `;
 const Price = styled.div`
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: right;
+  @media screen and (min-width: 768px) {
+    font-size: 1rem;
+    text-align: left;
+  }
 `;
 const ProductImage = styled.img``;
 
@@ -57,7 +66,7 @@ export default function ProductBox({ _id, title, description, price, images }) {
         <Title href={url}>{title}</Title>
         <PriceRow>
           <Price>₹{price}</Price>
-          <Button primary={1} outline={1} onClick={() => addProduct(_id)}>
+          <Button block primary={1} outline={1} onClick={() => addProduct(_id)}>
             Add to Cart
           </Button>
         </PriceRow>
