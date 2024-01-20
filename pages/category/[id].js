@@ -1,6 +1,7 @@
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import ProductsGrid from "@/components/ProductsGrid";
+import Spinner from "@/components/Spinner";
 import Title from "@/components/Title";
 import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
@@ -40,10 +41,17 @@ export default function CategoryPage({
   subCategories,
   products: originalProducts,
 }) {
+  const defaultSorting = "_id-desc";
+  const defaultFilterValues = category.properties.map((p) => ({
+    name: p.name,
+    value: "all",
+  }));
   const [products, setProducts] = useState(originalProducts);
-  const [filterValues, setFilterValues] = useState(
-    category.properties.map((p) => ({ name: p.name, value: "all" }))
-  );
+  const [filterValues, setFilterValues] = useState(defaultFilterValues);
+  const [sort, setSort] = useState(defaultSorting);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+  const [filtersChanged, setFiltersChanged] = useState(false);
+
   function handleFilterChange(filterName, filterValue) {
     setFilterValues((prev) => {
       return prev.map((p) => ({
@@ -51,11 +59,17 @@ export default function CategoryPage({
         value: p.name === filterName ? filterValue : p.value,
       }));
     });
+    setFiltersChanged(true);
   }
   useEffect(() => {
+    if (!filtersChanged) {
+      return;
+    }
+    setLoadingProducts(true);
     const catIds = [category._id, ...(subCategories?.map((c) => c._id) || [])];
     const params = new URLSearchParams();
     params.set("categories", catIds.join(","));
+    params.set("sort", sort);
     filterValues.forEach((f) => {
       if (f.value !== "all") {
         params.set(f.name, f.value);
@@ -64,8 +78,10 @@ export default function CategoryPage({
     const url = `/api/products?` + params.toString();
     axios.get(url).then((res) => {
       setProducts(res.data);
+      setLoadingProducts(false);
     });
-  }, [filterValues]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterValues, sort, filtersChanged]);
   return (
     <>
       <Header />
@@ -92,9 +108,30 @@ export default function CategoryPage({
                 </select>
               </Filter>
             ))}
+            <Filter>
+              <span>Sorting:</span>
+              <select
+                value={sort}
+                onChange={(ev) => {
+                  setSort(ev.target.value);
+                  setFiltersChanged(true);
+                }}
+              >
+                <option value="price-asc">price, lowest first</option>
+                <option value="price-desc">price, highest first</option>
+                <option value="_id-desc">Newest First</option>
+                <option value="_id-asc">Oldest First</option>
+              </select>
+            </Filter>
           </FiltersWrapper>
         </CategoryHeader>
-        <ProductsGrid products={products} />
+        {loadingProducts && <Spinner fullWidth={1} />}
+        {!loadingProducts && (
+          <div>
+            {products.length > 0 && <ProductsGrid products={products} />}
+            {products.length === 0 && <div>Sorry, No Products Found.</div>}
+          </div>
+        )}
       </Center>
     </>
   );
