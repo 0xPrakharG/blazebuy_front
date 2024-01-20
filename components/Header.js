@@ -30,7 +30,7 @@ const NavLink = styled(Link)`
 `;
 const StyledNav = styled.nav`
   ${(props) =>
-    props.mobileNavActive
+    props.mobilenavactive
       ? `
   display: block;
   `
@@ -73,7 +73,7 @@ export default function Header() {
       <Center>
         <Wrapper>
           <Logo href={"/"}>BlazeBuy</Logo>
-          <StyledNav mobileNavActive={mobileNavActive}>
+          <StyledNav mobilenavactive={mobileNavActive === true ? 1 : 0}>
             <NavLink href={"/"}>Home</NavLink>
             <NavLink href={"/products"}>All Products</NavLink>
             <NavLink href={"/categories"}>Categories</NavLink>
