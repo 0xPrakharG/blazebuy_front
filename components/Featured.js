@@ -1,11 +1,9 @@
 import styled from "styled-components";
 import Center from "./Center";
-import Image from "next/image";
-import Button from "./Button";
 import ButtonLink from "./ButtonLink";
 import CartIcon from "./icons/CartIcon";
-import { useContext } from "react";
-import { CartContext } from "./CartContext";
+import FlyingButton from "./FlyingButton";
+import { RevealWrapper } from "next-reveal";
 
 const Bg = styled.div`
   background-color: #222;
@@ -28,12 +26,7 @@ const ColumnsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  img {
-    max-width: 100%;
-    max-height: 220px;
-    display: block;
-    margin: 0 auto;
-  }
+
   div:nth-child(1) {
     order: 2;
   }
@@ -53,42 +46,47 @@ const ButtonsWrapper = styled.div`
   gap: 10px;
   margin-top: 25px;
 `;
-const BannerImage = styled.img``;
+const BannerImage = styled.img`
+  max-width: 100%;
+  max-height: 220px;
+  display: block;
+  margin: 0 auto;
+`;
 
 export default function Featured({ product }) {
-  const { addProduct } = useContext(CartContext);
-  function addFeaturedToCart() {
-    addProduct(product._id);
-  }
   return (
     <Bg>
       <Center>
         <ColumnsWrapper>
           <Column>
             <div>
-              <Title>{product.title}</Title>
-              <Desc>{product.description}</Desc>
-              <ButtonsWrapper>
-                <ButtonLink
-                  href={"/product/" + product._id}
-                  white={1}
-                  outline={1}
-                >
-                  Read More
-                </ButtonLink>
-                <Button white={1} onClick={addFeaturedToCart}>
-                  <CartIcon />
-                  Add to cart
-                </Button>
-              </ButtonsWrapper>
+              <RevealWrapper origin="left" delay={0}>
+                <Title>{product.title}</Title>
+                <Desc>{product.description}</Desc>
+                <ButtonsWrapper>
+                  <ButtonLink
+                    href={"/product/" + product._id}
+                    white={1}
+                    outline={1}
+                  >
+                    Read More
+                  </ButtonLink>
+                  <FlyingButton
+                    white={1}
+                    _id={product._id}
+                    src={product.images?.[0]}
+                  >
+                    <CartIcon />
+                    Add to cart
+                  </FlyingButton>
+                </ButtonsWrapper>
+              </RevealWrapper>
             </div>
           </Column>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <BannerImage
-              priority
-              src={"https://blazebuy.s3.amazonaws.com/1705493003182.png"}
-              alt=""
-            />
+            <RevealWrapper delay={0}>
+              <BannerImage priority={1} src={product.images?.[0]} alt="" />
+            </RevealWrapper>
           </div>
         </ColumnsWrapper>
       </Center>
