@@ -2,7 +2,12 @@ import styled from "styled-components";
 import Link from "next/link";
 import FlyingButton from "./FlyingButton";
 
-const ProductWrapper = styled.div``;
+const ProductWrapper = styled.div`
+  button {
+    width: 100%;
+    justify-content: center;
+  }
+`;
 const WhiteBox = styled(Link)`
   background-color: #fff;
   padding: 20px;

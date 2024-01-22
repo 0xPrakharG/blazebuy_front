@@ -83,7 +83,13 @@ export default function Featured({ product }) {
               </RevealWrapper>
             </div>
           </Column>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <RevealWrapper delay={0}>
               <BannerImage priority={1} src={product.images?.[0]} alt="" />
             </RevealWrapper>
