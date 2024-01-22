@@ -3,6 +3,7 @@ import { CartContext } from "@/components/CartContext";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
+import Spinner from "@/components/Spinner";
 import Table from "@/components/Table";
 import axios from "axios";
 import { RevealWrapper } from "next-reveal";
@@ -95,11 +96,24 @@ export default function CartPage() {
   }, [cartProducts]);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     if (window.location.href.includes("success")) {
       setIsSuccess(true);
       clearCart();
     }
-  }, [clearCart]);
+    axios.get("/api/address").then((response) => {
+      setName(response.data.name);
+      setEmail(response.data.email);
+      setCity(response.data.city);
+      setPostalCode(response.data.postalCode);
+      setStreetAddress(response.data.streetAddress);
+      setCountry(response.data.country);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function moreOfThisProduct(id) {
     addProduct(id);
@@ -136,10 +150,12 @@ export default function CartPage() {
         <Header />
         <Center>
           <ColumnsWrapper>
-            <Box2>
-              <h1>Thanks for your order!</h1>
-              <p>We will email you when your order is dispatched.</p>
-            </Box2>
+            <RevealWrapper delay={0}>
+              <Box2>
+                <h1>Thanks for your order!</h1>
+                <p>We will email you when your order is dispatched.</p>
+              </Box2>
+            </RevealWrapper>
           </ColumnsWrapper>
         </Center>
       </>
