@@ -6,6 +6,7 @@ import Input from "@/components/Input";
 import Spinner from "@/components/Spinner";
 import Table from "@/components/Table";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
@@ -76,6 +77,7 @@ const ProductImage = styled.img``;
 export default function CartPage() {
   const { cartProducts, addProduct, removeProduct, clearCart } =
     useContext(CartContext);
+  const { data: session } = useSession();
   const [products, setProducts] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -104,6 +106,12 @@ export default function CartPage() {
       setIsSuccess(true);
       clearCart();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
     axios.get("/api/address").then((response) => {
       setName(response.data.name);
       setEmail(response.data.email);
@@ -112,8 +120,7 @@ export default function CartPage() {
       setStreetAddress(response.data.streetAddress);
       setCountry(response.data.country);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [session]);
 
   function moreOfThisProduct(id) {
     addProduct(id);

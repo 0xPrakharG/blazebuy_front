@@ -14,11 +14,16 @@ export default async function handle(req, res) {
     });
     if (!!wishedDoc) {
       await WishedProduct.findByIdAndDelete(wishedDoc._id);
-      // res.json({ wishedDoc });
+      res.json("deleted");
     } else {
       await WishedProduct.create({ userEmail: user.email, product });
-      // res.json("created");
+      res.json("created");
     }
-    res.json(true);
+  }
+
+  if (req.method === "GET") {
+    res.json(
+      await WishedProduct.find({ userEmail: user.email }).populate("product")
+    );
   }
 }

@@ -10,16 +10,25 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
+import ProductBox from "@/components/ProductBox";
 
 const ColsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 40px;
   margin: 40px 0;
+  p{
+    margin: 5px;
+  }
 `;
 const CityHolder = styled.div`
   display: flex;
   gap: 5px;
+`;
+const WishedProductsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 `;
 
 export default function AccountPage() {
@@ -30,7 +39,9 @@ export default function AccountPage() {
   const [postalCode, setPostalCode] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [country, setCountry] = useState("");
-  const [loaded, setLoaded] = useState(false);
+  const [addressLoaded, setAddressLoaded] = useState(true);
+  const [wishlistLoaded, setWishlistLoaded] = useState(true);
+  const [wishedProducts, setWishedProducts] = useState([]);
 
   async function logout() {
     await signOut({
@@ -48,6 +59,11 @@ export default function AccountPage() {
   }
 
   useEffect(() => {
+    if (!session) {
+      return;
+    }
+    setAddressLoaded(false);
+    setWishlistLoaded(false);
     axios.get("/api/address").then((response) => {
       setName(response.data.name);
       setEmail(response.data.email);
@@ -55,9 +71,19 @@ export default function AccountPage() {
       setPostalCode(response.data.postalCode);
       setStreetAddress(response.data.streetAddress);
       setCountry(response.data.country);
-      setLoaded(true);
+      setAddressLoaded(true);
     });
-  }, []);
+    axios.get("/api/wishlist").then((response) => {
+      setWishedProducts(response.data.map((wp) => wp.product));
+      setWishlistLoaded(true);
+    });
+  }, [session]);
+
+  function productRemovedFromWishlist(idToRemove) {
+    setWishedProducts((products) => {
+      return [...products.filter((p) => p._id.toString() !== idToRemove)];
+    });
+  }
   return (
     <>
       <Header />
@@ -67,15 +93,39 @@ export default function AccountPage() {
             <RevealWrapper delay={0} origin={"left"}>
               <WhiteBox>
                 <h2>Wishlist</h2>
+                {!wishlistLoaded && <Spinner fullWidth={true} />}
+                {wishlistLoaded && (
+                  <>
+                    <WishedProductsGrid>
+                      {wishedProducts.length > 0 &&
+                        wishedProducts.map((wp) => (
+                          <ProductBox
+                            key={wp._id}
+                            {...wp}
+                            wished={true}
+                            onRemoveFromWishlist={productRemovedFromWishlist}
+                          />
+                        ))}
+                    </WishedProductsGrid>
+                    {wishedProducts.length === 0 && (
+                      <>
+                        {session && <p>Your Wishlist is Empty!</p>}
+                        {!session && (
+                          <p>Login to add products to your wishlist</p>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
               </WhiteBox>
             </RevealWrapper>
           </div>
           <div>
             <RevealWrapper delay={0}>
               <WhiteBox>
-                <h2>Account Details</h2>
-                {!loaded && <Spinner fullWidth={true} />}
-                {loaded && (
+                <h2>{session ? "Account Details" : "Login"}</h2>
+                {!addressLoaded && <Spinner fullWidth={true} />}
+                {addressLoaded && session && (
                   <>
                     <Input
                       type="text"
@@ -128,7 +178,7 @@ export default function AccountPage() {
                 )}
                 {!session && (
                   <Button primary={1} onClick={login}>
-                    Login
+                    Login with Google
                   </Button>
                 )}
               </WhiteBox>
