@@ -106,8 +106,8 @@ export default function CartPage() {
       setIsSuccess(true);
       clearCart();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  }, [clearCart]);
   useEffect(() => {
     if (!session) {
       return;
