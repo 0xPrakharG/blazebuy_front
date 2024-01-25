@@ -121,7 +121,7 @@ export default function CartPage() {
     axios.get("/api/settings?name=shippingFee").then((res) => {
       setShippingFee(res.data.value);
     });
-  }, [clearCart]);
+  }, []);
   useEffect(() => {
     if (!session) {
       return;
@@ -259,18 +259,20 @@ export default function CartPage() {
                   </tbody>
                 </Table>
               )}
-              <p
-                style={{
-                  fontSize: "13px",
-                  textAlign: "right",
-                  marginTop: "0",
-                  paddingBottom: "15px",
-                }}
-              >
-                *Use coupon code: <b>TENOFF</b>
-                <br />
-                <span>(to claim 10% discount on payment page.)</span>
-              </p>
+              {products?.length > 0 && (
+                <p
+                  style={{
+                    fontSize: "13px",
+                    textAlign: "right",
+                    marginTop: "0",
+                    paddingBottom: "15px",
+                  }}
+                >
+                  *Use coupon code: <b>TENOFF</b>
+                  <br />
+                  <span>(to claim 10% discount on payment page.)</span>
+                </p>
+              )}
             </Box1>
           </RevealWrapper>
           {!!cartProducts?.length && (
