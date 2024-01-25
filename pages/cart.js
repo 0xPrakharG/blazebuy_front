@@ -3,12 +3,10 @@ import { CartContext } from "@/components/CartContext";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
-import Spinner from "@/components/Spinner";
 import Table from "@/components/Table";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
-import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -261,6 +259,18 @@ export default function CartPage() {
                   </tbody>
                 </Table>
               )}
+              <p
+                style={{
+                  fontSize: "13px",
+                  textAlign: "right",
+                  marginTop: "0",
+                  paddingBottom: "15px",
+                }}
+              >
+                *Use coupon code: <b>TENOFF</b>
+                <br />
+                <span>(to claim 10% discount on payment page.)</span>
+              </p>
             </Box1>
           </RevealWrapper>
           {!!cartProducts?.length && (
