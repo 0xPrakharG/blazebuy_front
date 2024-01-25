@@ -33,9 +33,11 @@ export default function ProductPage({ product }) {
       <Header />
       <Center>
         <ColWrapper>
-          <WhiteBox>
-            <ProductImages images={product.images} />
-          </WhiteBox>
+          <div>
+            <WhiteBox>
+              <ProductImages images={product.images} />
+            </WhiteBox>
+          </div>
           <div>
             <Title>{product.title}</Title>
             <p>{product.description}</p>
@@ -44,7 +46,11 @@ export default function ProductPage({ product }) {
                 <Price>₹{product.price}.00</Price>
               </div>
               <div>
-                <FlyingButton main={1} _id={product._id} src={product.images?.[0]}>
+                <FlyingButton
+                  main={1}
+                  _id={product._id}
+                  src={product.images?.[0]}
+                >
                   <CartIcon />
                   Add to cart
                 </FlyingButton>

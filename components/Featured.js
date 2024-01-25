@@ -12,15 +12,21 @@ const Bg = styled.div`
 `;
 const Title = styled.h1`
   margin: 0;
+  text-align: center;
   font-weight: normal;
   font-size: 1.5rem;
   @media screen and (min-width: 768px) {
     font-size: 3rem;
+    text-align: left;
   }
 `;
 const Desc = styled.p`
   color: #aaa;
   font-size: 0.8rem;
+  text-align: center;
+  @media screen and (min-width: 768px) {
+    text-align: left;
+  }
 `;
 const ColumnsWrapper = styled.div`
   display: grid;
@@ -45,6 +51,10 @@ const ButtonsWrapper = styled.div`
   display: flex;
   gap: 10px;
   margin-top: 25px;
+  justify-content: center;
+  @media screen and (min-width: 768px) {
+    justify-content: start;
+  }
 `;
 const BannerImage = styled.img`
   max-width: 100%;
