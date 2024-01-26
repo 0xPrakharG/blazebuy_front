@@ -8,6 +8,7 @@ import WhiteBox from "@/components/WhiteBox";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
+import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -159,6 +160,9 @@ export default function CartPage() {
   if (isSuccess) {
     return (
       <>
+        <Head>
+          <title>BlazeBuy | Thank You</title>
+        </Head>
         <Header />
         <Center>
           <ColumnsWrapper>
@@ -175,6 +179,9 @@ export default function CartPage() {
   }
   return (
     <>
+      <Head>
+        <title>BlazeBuy | Cart</title>
+      </Head>
       <Header />
       <Center>
         <ColumnsWrapper>

@@ -1,9 +1,11 @@
 import Link from "next/link";
 import styled from "styled-components";
+import Image from "next/image";
 import Center from "./Center";
 import { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
 import BarsIcon from "./icons/BarsIcon";
+import Cart from "@/public/cart.png";
 import SearchIcon from "./icons/SearchIcon";
 
 const StyledHeader = styled.header`
@@ -22,6 +24,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px 0;
+  align-items: center;
 `;
 const NavLink = styled(Link)`
   display: block;
@@ -86,6 +89,10 @@ const NavButton = styled.button`
     display: none;
   }
 `;
+const LogoImg = styled(Image)`
+  height: 35px;
+  width: 35px;
+`;
 
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
@@ -94,7 +101,9 @@ export default function Header() {
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href={"/"}>BlazeBuy</Logo>
+          <Logo href={"/"}>
+            <LogoImg src={Cart} width={100} height={100} alt="" />
+          </Logo>
           <StyledNav mobilenavactive={mobileNavActive === true ? 1 : 0}>
             <NavLink href={"/"}>Home</NavLink>
             <NavLink href={"/products"}>All Products</NavLink>

@@ -7,10 +7,14 @@ import { Product } from "@/models/Product";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { WishedProduct } from "@/models/WishedProduct";
 import { getServerSession } from "next-auth";
+import Head from "next/head";
 
 export default function ProductsPage({ products, wishedProducts }) {
   return (
     <>
+      <Head>
+        <title>BlazeBuy | All Products</title>
+      </Head>
       <Header />
       <Center>
         <Title>All Products</Title>

@@ -2,7 +2,6 @@ import Button from "@/components/Button";
 import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
-import Title from "@/components/Title";
 import WhiteBox from "@/components/WhiteBox";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
@@ -13,10 +12,20 @@ import Spinner from "@/components/Spinner";
 import ProductBox from "@/components/ProductBox";
 import Tabs from "@/components/Tabs";
 import SingleOrder from "@/components/SingleOrder";
+import Head from "next/head";
 
 const ColsWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr;
+  div:nth-child(1) {
+    order: 2;
+  }
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 1.2fr 0.8fr;
+    div:nth-child(1) {
+    order: 0;
+  }
+  }
   gap: 40px;
   margin: 40px 0;
   p {
@@ -45,7 +54,7 @@ export default function AccountPage() {
   const [wishlistLoaded, setWishlistLoaded] = useState(true);
   const [OrdersLoaded, setOrdersLoaded] = useState(true);
   const [wishedProducts, setWishedProducts] = useState([]);
-  const [activeTab, setActiveTab] = useState("Orders");
+  const [activeTab, setActiveTab] = useState("Wishlist");
   const [orders, setOrders] = useState([]);
 
   async function logout() {
@@ -96,6 +105,9 @@ export default function AccountPage() {
   }
   return (
     <>
+      <Head>
+        <title>BlazeBuy | Account</title>
+      </Head>
       <Header />
       <Center>
         <ColsWrapper>
@@ -103,7 +115,7 @@ export default function AccountPage() {
             <RevealWrapper delay={0} origin={"left"}>
               <WhiteBox>
                 <Tabs
-                  tabs={["Orders", "Wishlist"]}
+                  tabs={["Wishlist", "Orders"]}
                   active={activeTab}
                   onChange={setActiveTab}
                 />
@@ -112,9 +124,7 @@ export default function AccountPage() {
                     {!OrdersLoaded && <Spinner fullWidth={true} />}
                     {OrdersLoaded && (
                       <div>
-                        {orders.length === 0 && (
-                          <p>Login to see your orders</p>
-                        )}
+                        {orders.length === 0 && <p>Login to see your orders</p>}
                         {orders.length > 0 &&
                           orders.map((o) => <SingleOrder key={o._id} {...o} />)}
                       </div>

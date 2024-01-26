@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { debounce } from "lodash";
 import Spinner from "@/components/Spinner";
+import Head from "next/head";
 
 const StyledInput = styled(Input)`
   padding: 5px 10px;
@@ -47,6 +48,9 @@ export default function SearchPage() {
   }
   return (
     <>
+      <Head>
+        <title>BlazeBuy | Search</title>
+      </Head>
       <Header />
       <Center>
         <InputWrapper>

@@ -2,10 +2,10 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import ProductsGrid from "@/components/ProductsGrid";
 import Spinner from "@/components/Spinner";
-import Title from "@/components/Title";
 import { Category } from "@/models/Category";
 import { Product } from "@/models/Product";
 import axios from "axios";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -84,6 +84,9 @@ export default function CategoryPage({
   }, [filterValues, sort, filtersChanged]);
   return (
     <>
+      <Head>
+        <title>BlazeBuy | {category.name}</title>
+      </Head>
       <Header />
       <Center>
         <CategoryHeader>

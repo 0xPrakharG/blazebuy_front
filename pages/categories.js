@@ -10,6 +10,7 @@ import { WishedProduct } from "@/models/WishedProduct";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { mongooseConnect } from "@/lib/mongoose";
+import Head from "next/head";
 
 const CategoryGrid = styled.div`
   display: grid;
@@ -54,6 +55,9 @@ export default function CategoriesPage({
 }) {
   return (
     <>
+      <Head>
+        <title>BlazeBuy | Categories</title>
+      </Head>
       <Header />
       <Center>
         {mainCategories.map((cat) => (

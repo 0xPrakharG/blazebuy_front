@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { WishedProduct } from "@/models/WishedProduct";
 import { Setting } from "@/models/Setting";
+import Head from "next/head";
 
 export default function HomePage({
   featuredProduct,
@@ -15,6 +16,9 @@ export default function HomePage({
 }) {
   return (
     <div>
+      <Head>
+        <title>BlazeBuy</title>
+      </Head>
       <Header />
       <Featured product={featuredProduct} />
       <NewProducts products={newProducts} wishedProducts={wishedNewProducts} />

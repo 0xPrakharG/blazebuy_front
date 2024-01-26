@@ -8,6 +8,7 @@ import WhiteBox from "@/components/WhiteBox";
 import CartIcon from "@/components/icons/CartIcon";
 import { mongooseConnect } from "@/lib/mongoose";
 import { Product } from "@/models/Product";
+import Head from "next/head";
 import styled from "styled-components";
 
 const ColWrapper = styled.div`
@@ -31,6 +32,9 @@ const Price = styled.span`
 export default function ProductPage({ product }) {
   return (
     <>
+      <Head>
+        <title>BlazeBuy | {product.title}</title>
+      </Head>
       <Header />
       <Center>
         <ColWrapper>
