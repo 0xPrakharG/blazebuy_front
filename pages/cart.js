@@ -4,6 +4,7 @@ import Center from "@/components/Center";
 import Header from "@/components/Header";
 import Input from "@/components/Input";
 import Table from "@/components/Table";
+import WhiteBox from "@/components/WhiteBox";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { RevealWrapper } from "next-reveal";
@@ -31,18 +32,6 @@ const ColumnsWrapper = styled.div`
     font-size: 1.6rem;
     font-weight: bold;
   }
-`;
-const Box1 = styled.div`
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 30px 30px 0;
-  height: max-content;
-`;
-const Box2 = styled.div`
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 30px 30px;
-  height: max-content;
 `;
 const ProductInfoCell = styled.td`
   padding: 10px 0;
@@ -121,6 +110,7 @@ export default function CartPage() {
     axios.get("/api/settings?name=shippingFee").then((res) => {
       setShippingFee(res.data.value);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (!session) {
@@ -173,10 +163,10 @@ export default function CartPage() {
         <Center>
           <ColumnsWrapper>
             <RevealWrapper delay={0}>
-              <Box2>
+              <WhiteBox>
                 <h1>Thanks for your order!</h1>
                 <p>We will email you when your order is dispatched.</p>
-              </Box2>
+              </WhiteBox>
             </RevealWrapper>
           </ColumnsWrapper>
         </Center>
@@ -189,7 +179,7 @@ export default function CartPage() {
       <Center>
         <ColumnsWrapper>
           <RevealWrapper delay={0} origin={"left"}>
-            <Box1>
+            <WhiteBox>
               <h2>Cart</h2>
               {!cartProducts?.length && (
                 <div style={{ paddingBottom: "30px" }}>Your Cart is empty</div>
@@ -273,11 +263,11 @@ export default function CartPage() {
                   <span>(to claim 10% discount on payment page.)</span>
                 </p>
               )}
-            </Box1>
+            </WhiteBox>
           </RevealWrapper>
           {!!cartProducts?.length && (
             <RevealWrapper delay={0}>
-              <Box2>
+              <WhiteBox>
                 <h2>Order Information</h2>
 
                 <Input
@@ -321,7 +311,7 @@ export default function CartPage() {
                 <Button black={1} block={1} onClick={goToPayment}>
                   Continue to Payment
                 </Button>
-              </Box2>
+              </WhiteBox>
             </RevealWrapper>
           )}
         </ColumnsWrapper>
