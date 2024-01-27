@@ -124,7 +124,8 @@ export default function AccountPage() {
                     {!OrdersLoaded && <Spinner fullWidth={true} />}
                     {OrdersLoaded && (
                       <div>
-                        {orders.length === 0 && <p>Login to see your orders</p>}
+                        {orders.length === 0 && !session && <p>Login to see your orders</p>}
+                        {orders.length === 0 && session && <p>Place your first order</p>}
                         {orders.length > 0 &&
                           orders.map((o) => <SingleOrder key={o._id} {...o} />)}
                       </div>
