@@ -54,7 +54,7 @@ export default async function handler(req, res) {
     postalCode,
     streetAddress,
     country,
-    paid: false,
+    paid: true,
     userEmail: session?.user?.email,
   });
 
